@@ -1,0 +1,85 @@
+-- Crear base de datos --
+CREATE DATABASE Biblioteca;
+USE Biblioteca;
+
+-- Tabla Libros --
+CREATE TABLE Libros (
+    ISBN VARCHAR(13) NOT NULL PRIMARY KEY,    
+    Titulo VARCHAR(255) NOT NULL,
+    Autor VARCHAR(255) NOT NULL,
+    Editorial VARCHAR(255) NOT NULL,
+    Categoria VARCHAR(255) NOT NULL,
+    Año_publicacion YEAR NOT NULL,
+    Cantidad INT NOT NULL,
+    Ubicacion VARCHAR(255) NOT NULL
+);
+
+-- Tabla Usuarios --
+CREATE TABLE Usuarios (
+    id_usuario INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Usuario VARCHAR(255) NOT NULL,
+    Contraseña VARCHAR(255) NOT NULL,
+    Nombre(s) VARCHAR(255) NOT NULL,
+    Apellido(s) VARCHAR(255) NOT NULL,
+    Telefono VARCHAR(20) NOT NULL,
+    Email VARCHAR(255) NOT NULL,
+    Direccion VARCHAR(255) NOT NULL,
+    Fecha_registro DATE NOT NULL
+);
+
+-- Tabla Prestamos --
+CREATE TABLE Prestamos (
+    id_prestamo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    ISBN VARCHAR(13) NOT NULL,
+    id_usuario INT NOT NULL,
+    Fecha_prestamo DATE NOT NULL,
+    Fecha_devolucion DATE NOT NULL,
+    Devuelto BOOLEAN NOT NULL DEFAULT FALSE
+);
+ALTER TABLE Prestamos ADD FOREIGN KEY (ISBN) REFERENCES Libros(ISBN);
+ALTER TABLE Prestamos ADD FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario);
+
+-- Tabla Historial --
+CREATE TABLE Historial_Prestamos (
+    id_historial INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_prestamo INT NOT NULL,
+    Fecha_prestamo DATE NOT NULL,
+    Fecha_devolucion DATE NOT NULL
+);
+ALTER TABLE Historial ADD FOREIGN KEY (id_prestamo) REFERENCES Prestamos(id_prestamo);
+
+-- Tabla Reservas --
+CREATE TABLE Reservas (
+    id_reserva INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    ISBN VARCHAR(13) NOT NULL,
+    id_usuario INT NOT NULL,
+    Fecha_reserva DATE NOT NULL,
+    Fecha_expiracion DATE NOT NULL
+);
+ALTER TABLE Reserva ADD FOREIGN KEY (ISBN) REFERENCES Libros(ISBN);
+ALTER TABLE Reserva ADD FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario);
+
+-- Tabla Busqueda --
+CREATE TABLE Busqueda (
+    id_busqueda INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    Termino_busqueda VARCHAR(255) NOT NULL,
+    Fecha_busqueda DATE NOT NULL
+);
+ALTER TABLE Busqueda ADD FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario)
+
+-- Autores --
+CREATE TABLE Autores (
+    id_autor INT NOT NULL PRIMARY KEY,
+    Nombre(s) VARCHAR(255) NOT NULL,
+    Apellido(s) VARCHAR(255) NOT NULL,
+    Fecha_nacimiento DATE NOT NULL
+)
+
+-- Editoriales --
+CREATE TABLE Editoriales (
+    id_autor INT NOT NULL PRIMARY KEY,
+    Nombre(s) VARCHAR(255) NOT NULL,
+    Apellido(s) VARCHAR(255) NOT NULL,
+    Fecha_nacimiento DATE NOT NULL
+)
