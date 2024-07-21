@@ -1,85 +1,93 @@
+
 -- Crear base de datos --
-CREATE DATABASE Biblioteca;
-USE Biblioteca;
+CREATE DATABASE biblioteca;
+USE biblioteca;
 
 -- Tabla Libros --
-CREATE TABLE Libros (
+CREATE TABLE libros (
     ISBN VARCHAR(13) NOT NULL PRIMARY KEY,    
-    Titulo VARCHAR(255) NOT NULL,
-    Autor VARCHAR(255) NOT NULL,
-    Editorial VARCHAR(255) NOT NULL,
-    Categoria VARCHAR(255) NOT NULL,
-    Año_publicacion YEAR NOT NULL,
-    Cantidad INT NOT NULL,
-    Ubicacion VARCHAR(255) NOT NULL
+    titulo VARCHAR(255) NOT NULL,
+    autor VARCHAR(255) NOT NULL,
+    editorial VARCHAR(255) NOT NULL,
+    categoria VARCHAR(255) NOT NULL,
+    año_publicacion YEAR NOT NULL,
+    cantidad INT NOT NULL,
+    abicacion VARCHAR(255) NOT NULL
 );
 
 -- Tabla Usuarios --
-CREATE TABLE Usuarios (
+CREATE TABLE usuarios (
     id_usuario INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    Usuario VARCHAR(255) NOT NULL,
-    Contraseña VARCHAR(255) NOT NULL,
-    Nombre(s) VARCHAR(255) NOT NULL,
-    Apellido(s) VARCHAR(255) NOT NULL,
-    Telefono VARCHAR(20) NOT NULL,
-    Email VARCHAR(255) NOT NULL,
-    Direccion VARCHAR(255) NOT NULL,
-    Fecha_registro DATE NOT NULL
+    usuario VARCHAR(255) NOT NULL,
+    contraseña VARCHAR(255) NOT NULL,
+    nombre VARCHAR(255) NOT NULL,
+    apellido VARCHAR(255) NOT NULL,
+    telefono VARCHAR(20) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    direccion VARCHAR(255) NOT NULL,
+    fecha_registro DATE NOT NULL
+);
+
+-- Tabla Administradores --
+CREATE TABLE administradores (
+    id_administrador INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    usuario VARCHAR(255) NOT NULL,
+    contraseña VARCHAR(255) NOT NULL
 );
 
 -- Tabla Prestamos --
-CREATE TABLE Prestamos (
+CREATE TABLE prestamos (
     id_prestamo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     ISBN VARCHAR(13) NOT NULL,
     id_usuario INT NOT NULL,
-    Fecha_prestamo DATE NOT NULL,
-    Fecha_devolucion DATE NOT NULL,
-    Devuelto BOOLEAN NOT NULL DEFAULT FALSE
+    fecha_prestamo DATE NOT NULL,
+    fecha_devolucion DATE NOT NULL,
+    devuelto BOOLEAN NOT NULL DEFAULT FALSE
 );
-ALTER TABLE Prestamos ADD FOREIGN KEY (ISBN) REFERENCES Libros(ISBN);
-ALTER TABLE Prestamos ADD FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario);
+ALTER TABLE prestamos ADD FOREIGN KEY (ISBN) REFERENCES libros(ISBN);
+ALTER TABLE prestamos ADD FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario);
 
 -- Tabla Historial --
-CREATE TABLE Historial_Prestamos (
+CREATE TABLE historial_prestamos (
     id_historial INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     id_prestamo INT NOT NULL,
-    Fecha_prestamo DATE NOT NULL,
-    Fecha_devolucion DATE NOT NULL
+    fecha_prestamo DATE NOT NULL,
+    fecha_devolucion DATE NOT NULL
 );
-ALTER TABLE Historial ADD FOREIGN KEY (id_prestamo) REFERENCES Prestamos(id_prestamo);
+ALTER TABLE historial_prestamos ADD FOREIGN KEY (id_prestamo) REFERENCES prestamos(id_prestamo);
 
 -- Tabla Reservas --
-CREATE TABLE Reservas (
+CREATE TABLE reservas (
     id_reserva INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     ISBN VARCHAR(13) NOT NULL,
     id_usuario INT NOT NULL,
-    Fecha_reserva DATE NOT NULL,
-    Fecha_expiracion DATE NOT NULL
+    fecha_reserva DATE NOT NULL,
+    fecha_expiracion DATE NOT NULL
 );
-ALTER TABLE Reserva ADD FOREIGN KEY (ISBN) REFERENCES Libros(ISBN);
-ALTER TABLE Reserva ADD FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario);
+ALTER TABLE reserva ADD FOREIGN KEY (ISBN) REFERENCES libros(ISBN);
+ALTER TABLE reserva ADD FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario);
 
 -- Tabla Busqueda --
-CREATE TABLE Busqueda (
+CREATE TABLE busqueda (
     id_busqueda INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT NOT NULL,
-    Termino_busqueda VARCHAR(255) NOT NULL,
-    Fecha_busqueda DATE NOT NULL
+    termino_busqueda VARCHAR(255) NOT NULL,
+    fecha_busqueda DATE NOT NULL
 );
-ALTER TABLE Busqueda ADD FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario)
+ALTER TABLE busqueda ADD FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
 
 -- Autores --
-CREATE TABLE Autores (
+CREATE TABLE autores (
     id_autor INT NOT NULL PRIMARY KEY,
-    Nombre(s) VARCHAR(255) NOT NULL,
-    Apellido(s) VARCHAR(255) NOT NULL,
-    Fecha_nacimiento DATE NOT NULL
+    nombre VARCHAR(255) NOT NULL,
+    apellido VARCHAR(255) NOT NULL,
+    fecha_nacimiento DATE NOT NULL
 )
 
 -- Editoriales --
-CREATE TABLE Editoriales (
+CREATE TABLE Eeitoriales (
     id_autor INT NOT NULL PRIMARY KEY,
-    Nombre(s) VARCHAR(255) NOT NULL,
-    Apellido(s) VARCHAR(255) NOT NULL,
-    Fecha_nacimiento DATE NOT NULL
+    nombre VARCHAR(255) NOT NULL,
+    apellido VARCHAR(255) NOT NULL,
+    fecha_nacimiento DATE NOT NULL
 )
